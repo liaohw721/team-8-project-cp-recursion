@@ -16,7 +16,7 @@ int unique(int arr[], int n) {
     if (n == 0) return 0;
     qsort(arr, n, sizeof(int), cmp);   
     int idx = 1;
-    for (int i = 1; i < n; ++i) {
+    for (int i = 1; i < n; i++) {
         if (arr[i] != arr[idx - 1]) {
             arr[idx++] = arr[i];
         }
@@ -32,7 +32,7 @@ TreeNode* buildCBST(TreeNode* root, int vals[], int l ,int r) {
     }
     int mid = (l + r) / 2;
     if ((l + r) % 2 == 1) mid++;
-    printf("l=%d r=%d mid=%d val[mid]=%d \n", l, r, mid, vals[mid]);
+    /*printf("l=%d r=%d mid=%d val[mid]=%d \n", l, r, mid, vals[mid]);*/
     root = (TreeNode*)malloc(sizeof(TreeNode));
 	root->left = buildCBST(root->left, vals, l, mid - 1);
     root->val = vals[mid];
@@ -67,14 +67,14 @@ int main() {
     int N, ope;
     scanf("%d %d", &N, &ope);
     int* arr = (int*)malloc(N * sizeof(int));
-    for (int i = 0; i < N; i++) scanf("%d", &arr[i]);
+    /*for (int i = 0; i < N; i++) scanf("%d", &arr[i]);*/
     int newN = unique(arr, N);
     TreeNode* root = NULL;
     int idx = 0;
-	for (int i = 0; i < newN; i++) {
+	/*for (int i = 0; i < newN; i++) {
 		printf("%d ", arr[i]);
 	}
-	printf("\n");
+	printf("\n");*/
     root=buildCBST(root, arr, 0, newN-1);
     if (ope == 1) {
         inorder(root);
