@@ -1,8 +1,7 @@
 # Complete Binary Tree Traversal
 
 ## 題目敘述
-小明是台大資工的大一新生，在上完DSA後突然對TREE感到很有興趣，特別是可以用陣列輕易處理的complete binarary tree。所以他想要自己嘗試建幾顆樹來玩玩，順便練習練習各種traversal的用途。
-
+小明是台大資工的大一新生，在上完DSA後突然對TREE感到很有興趣，特別是可以用陣列輕易處理的complete binarary tree。所以他想要自己嘗試建幾顆樹來玩玩，順便練習練習各種traversal的用途。所以請老師幫他出了點測資練習。
 ## Input 格式
 - 第一行包含兩個整數 N, D
 - 第二行有 N 個整數，代表樹的節點 (以 complete binary tree 的陣列方式給定)
