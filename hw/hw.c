@@ -17,6 +17,12 @@ TreeNode* buildTree(int arr[], int n, int idx) {
     return root;
 }
 
+void preorder(TreeNode* root) {
+    if (!root) return;
+    printf("%d ", root->val);
+    preorder(root->left);
+    preorder(root->right);
+}
 
 void inorder(TreeNode* root) {
     if (!root) return;
@@ -53,9 +59,12 @@ int main() {
     TreeNode* root = buildTree(arr, N, 0);
 	switch (ope) {
 	case 1:
-		inorder(root);
+		preorder(root);
 		break;
 	case 2:
+		inorder(root);
+		break;
+	case 3:
 		postorder(root);
 		break;
 	}
