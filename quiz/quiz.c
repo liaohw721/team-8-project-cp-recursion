@@ -78,14 +78,26 @@ int main() {
 	TreeNode* root;
     root=buildCBST(arr, 0, newN-1);
 	preorder(root);
-    
+    int l, r;
     for (int i = 0; i < D; i++) {
-        int event;
+		int event_type, event;
 		TreeNode* node;
-		scanf("%d", &event);
+		scanf("%d %d", &event_type, &event);
 		node = findByIndex(root, event);
-		if (node) printf("%lld\n", node->val);
-		else printf("Not found\n");
+        if (event_type == 1) {
+			if (node) printf("%lld\n", node->val);
+			else printf("Not Found\n");
+        }
+        else if (event_type == 2) {
+            if (node) {
+				if (node->left) l = node->left->val;
+				else l = 0;
+				if (node->right) r = node->right->val;
+				else r = 0;
+				printf("%lld\n", node->val - l - r);
+            }
+			else printf("Not Found\n");
+        }
     }
 
     
