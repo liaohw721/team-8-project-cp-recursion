@@ -1,88 +1,93 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define ll long long
+
 
 typedef struct TreeNode {
-    int val;
+    int index;
+    ll val;
     struct TreeNode* left, * right;
 } TreeNode;
 
 
 int cmp(const void* a, const void* b) {
-    return (*(int*)a) - (*(int*)b);
+    int ia = ((TreeNode*)a)->index;
+    int ib = ((TreeNode*)b)->index;
+    if (ia < ib) return -1;
+    if (ia > ib) return 1;
+    return 0;
 }
 
-int unique(int arr[], int n) {
+int unique(TreeNode* arr, int n) {
     if (n == 0) return 0;
-    qsort(arr, n, sizeof(int), cmp);   
+    qsort(arr, n, sizeof(TreeNode), cmp);
     int idx = 1;
-    for (int i = 1; i < n; i++) {
-        if (arr[i] != arr[idx - 1]) {
-            arr[idx++] = arr[i];
+    for (int i = 1; i < n; ++i) {
+        if (arr[i].index != arr[idx - 1].index) {
+            arr[idx] = arr[i];
+			idx++;
+        }
+        else {
+			arr[idx - 1].val += arr[i].val;
         }
     }
     return idx;
 }
 
 
-TreeNode* buildCBST(TreeNode* root, int vals[], int l ,int r) {
-    if (l > r) {
-        root = NULL;
-        return root;
-    }
+TreeNode* buildCBST(TreeNode arr[], int l, int r) {
+    if (l > r) return NULL;
     int mid = (l + r) / 2;
-    if ((l + r) % 2 == 1) mid++;
-    /*printf("l=%d r=%d mid=%d val[mid]=%d \n", l, r, mid, vals[mid]);*/
-    root = (TreeNode*)malloc(sizeof(TreeNode));
-	root->left = buildCBST(root->left, vals, l, mid - 1);
-    root->val = vals[mid];
-	root->right = buildCBST(root->right, vals, mid + 1, r);
-	return root;
+    if ((l + r) % 2 == 1) mid++; 
+    arr[mid].left = buildCBST(arr, l, mid - 1);
+    arr[mid].right = buildCBST(arr, mid + 1, r);
+    return &arr[mid];
+}
+
+ll preorder(TreeNode* root) {
+	if (!root) return 0;
+	ll sum1 = 0, sum2 = 0;
+	sum1 = preorder(root->left);
+	sum2 = preorder(root->right);
+	root->val += sum1 + sum2;
+	return root->val;
 }
 
 
-void inorder(TreeNode* root) {
-    if (!root) return;
-    inorder(root->left);
-    printf("%d ", root->val);
-    inorder(root->right);
-}
-void postorder(TreeNode* root) {
-    if (!root) return;
-    
-    postorder(root->left);
-    postorder(root->right);
-    printf("%d ", root->val);
-}
-
-
-void freeTree(TreeNode* root) {
-    if (!root) return;
-    freeTree(root->left);
-    freeTree(root->right);
-    free(root);
+TreeNode* findByIndex(TreeNode* root, int target_index) {
+    if (root == NULL) return NULL;
+    if (root->index == target_index) return root;
+    if (target_index < root->index)
+        return findByIndex(root->left, target_index);
+    else
+        return findByIndex(root->right, target_index);
 }
 
 int main() {
-    int N, ope;
-    scanf("%d %d", &N, &ope);
-    int* arr = (int*)malloc(N * sizeof(int));
-    /*for (int i = 0; i < N; i++) scanf("%d", &arr[i]);*/
+    int N, D;
+    scanf("%d %d", &N, &D);
+    TreeNode* arr = (TreeNode*)malloc(N * sizeof(TreeNode));
+    for (int i = 0; i < N; i++) {
+		scanf("%d", &arr[i].index);
+        scanf("%lld", &arr[i].val);
+    }
+
+
     int newN = unique(arr, N);
-    TreeNode* root = NULL;
-    int idx = 0;
-	/*for (int i = 0; i < newN; i++) {
-		printf("%d ", arr[i]);
-	}
-	printf("\n");*/
-    root=buildCBST(root, arr, 0, newN-1);
-    if (ope == 1) {
-        inorder(root);
+	TreeNode* root;
+    root=buildCBST(arr, 0, newN-1);
+	preorder(root);
+    
+    for (int i = 0; i < D; i++) {
+        int event;
+		TreeNode* node;
+		scanf("%d", &event);
+		node = findByIndex(root, event);
+		if (node) printf("%lld\n", node->val);
+		else printf("Not found\n");
     }
-    else if (ope == 2) {
-        postorder(root);
-    }
-    freeTree(root);
-    free(arr);
+
+    
     return 0;
 }
