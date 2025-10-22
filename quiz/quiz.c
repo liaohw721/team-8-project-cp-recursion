@@ -26,7 +26,10 @@ int unique(TreeNode* arr, int n) {
     for (int i = 1; i < n; ++i) {
         if (arr[i].index != arr[idx - 1].index) {
             arr[idx] = arr[i];
+			arr[idx].left = NULL;
+			arr[idx].right = NULL;
 			idx++;
+            
         }
         else {
 			arr[idx - 1].val += arr[i].val;
