@@ -48,11 +48,11 @@ TreeNode* buildCBST(TreeNode arr[], int l, int r) {
     return &arr[mid];
 }
 
-ll preorder(TreeNode* root) {
+ll postorder(TreeNode* root) {
 	if (!root) return 0;
 	ll sum1 = 0, sum2 = 0;
-	sum1 = preorder(root->left);
-	sum2 = preorder(root->right);
+	sum1 = postorder(root->left);
+	sum2 = postorder(root->right);
 	root->val += sum1 + sum2;
 	return root->val;
 }
@@ -80,7 +80,7 @@ int main() {
     int newN = unique(arr, N);
 	TreeNode* root;
     root=buildCBST(arr, 0, newN-1);
-	preorder(root);
+	postorder(root);
     int l, r;
     for (int i = 0; i < D; i++) {
 		int event_type, event;
