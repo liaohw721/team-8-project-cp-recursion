@@ -81,7 +81,7 @@ int main() {
 	TreeNode* root;
     root=buildCBST(arr, 0, newN-1);
 	postorder(root);
-    int l, r;
+    ll l, r;
     for (int i = 0; i < D; i++) {
 		int event_type, event;
 		TreeNode* node;
